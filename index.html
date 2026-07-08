@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>000_VANDAL_PORTFOLIO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&amp;family=UnifrakturMaguntia&amp;family=Syne:wght@800&amp;family=Audiowide&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #F1291B;
+            --white: #FCFCFC;
+            --grey: #D1D1D1;
+            --black: #1A1A1B;
+            --cyan: #00F0FF;
+            --flash: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            font-family: 'IBM Plex Mono', monospace;
+            overflow-x: hidden;
+            background-image: url('https://images.unsplash.com/photo-1596272304828-b8089b0d6116?q=80&w=2070&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.7);
+            z-index: -1;
+        }
+
+        /* Hide mobile-only elements on desktop */
+        .mobile-nav, .mobile-status {
+            display: none;
+        }
+
+
+
+        
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(241, 41, 27, 0.2);
+            z-index: 999;
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .nav-item {
+            pointer-events: auto;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--black);
+            writing-mode: vertical-rl;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 1px solid var(--red);
+            padding-right: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--red);
+            padding-right: 15px;
+        }
+
+        .nav-top-right {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            pointer-events: auto;
+            text-align: right;
+        }
+
+        .brand {
+            font-family: 'Audiowide', sans-serif;
+            font-size: 32px;
+            color: var(--red);
+            line-height: 0.8;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        
+        header {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 10vw;
+        }
+
+        .hero-mashup {
+            position: relative;
+            width: 500px;
+            height: 600px;
+            z-index: 2;
+        }
+
+        .mashup-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: multiply;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .layer-1 { 
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            z-index: 1;
+        }
+        .layer-2 {
+            z-index: 2;
+            mix-blend-mode: hard-light;
+            opacity: 0.8;
+            transform: translate(20px, 20px);
+        }
+
+        .hero-title {
+            position: absolute;
+            font-family: 'Syne', sans-serif;
+            font-size: 12vw;
+            color: var(--red);
+            mix-blend-mode: difference;
+            pointer-events: none;
+            z-index: 5;
+            line-height: 0.8;
+            text-transform: uppercase;
+            left: 5vw;
+            top: 18vh;
+        }
+
+        
+        .scribble-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .scribble {
+            fill: none;
+            stroke: var(--red);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 2px rgba(241, 41, 27, 0.5));
+        }
+
+        
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            padding: 100px 40px;
+            z-index: 5;
+            position: relative;
+        }
+
+        .work-card {
+            grid-column: span 4;
+            position: relative;
+            margin-bottom: 80px;
+        }
+
+        .work-card:nth-child(even) {
+            grid-column: span 6;
+            margin-top: 100px;
+        }
+
+        .work-image {
+            width: 100%;
+            aspect-ratio: 2480/3503;
+        
+            background: var(--grey);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--black);
+        }
+
+        .work-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: grayscale(1) contrast(1.2);
+            transition: all 0.4s ease;
+        }
+
+        .work-card:hover img {
+            filter: grayscale(0) contrast(1);
+            transform: scale(1.05);
+        }
+
+        .work-meta {
+            margin-top: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .work-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .badge {
+            background: var(--red);
+            color: white;
+            padding: 2px 6px;
+            font-size: 9px;
+            margin-right: 5px;
+        }
+
+        
+        footer {
+            padding: 100px 40px;
+            border-top: 1px solid var(--red);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-logo {
+            font-family: 'Audiowide', sans-serif;
+            font-size: 80px;
+            line-height: 0.8;
+            color: var(--red);
+            letter-spacing: 2px;
+        }
+
+        .contact-info {
+            text-align: right;
+            max-width: 400px;
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            background: var(--cyan);
+            display: inline-block;
+            border-radius: 50%;
+            margin-right: 5px;
+            box-shadow: 0 0 10px var(--cyan);
+        }
+
+        
+        #scribble-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+        }
+
+        
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background: var(--black);
+            color: var(--white);
+            padding: 10px 0;
+            font-size: 12px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .marquee-inner {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .scribble-mascot {
+            position: absolute;
+            width: 150px;
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 100px 40px;
+            border-top: 1px solid var(--red);
+            border-bottom: 1px solid var(--red);
+            position: relative;
+            z-index: 5;
+        }
+
+        .about-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            color: var(--red);
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .about-block {
+            border-left: 1px solid var(--red);
+            padding-left: 20px;
+            margin-bottom: 30px;
+        }
+
+        .about-block h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: var(--red);
+        }
+
+        .about-block p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tool-tag {
+            border: 1px solid var(--black);
+            padding: 5px 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-box {
+            background: var(--black);
+            color: var(--white);
+            padding: 20px;
+            font-size: 11px;
+            border-left: 4px solid var(--cyan);
+        }
+
+        .edu-badge {
+            font-family: 'Audiowide', sans-serif;
+            font-size: 24px;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) { /* --- MOBILE STYLES START --- */
+            
+            /* Hide desktop nav and show mobile nav */
+            nav {
+                display: none;
+            }
+            .mobile-nav, .mobile-status {
+                display: block;
+            }
+
+            /* Header and Hero Section */
+            header {
+                flex-direction: column;
+                justify-content: center;
+                padding: 0 20px;
+                min-height: 100vh;
+            }
+            .hero-title {
+                font-size: 18vw;
+                text-align: center;
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: -20px;
+            }
+            .hero-mashup {
+                width: 85%;
+                aspect-ratio: 4/5;
+                height: auto;
+            }
+            .layer-2 {
+                transform: translate(10px, 10px);
+            }
+
+            /* Works Section */
+            .works-grid {
+                display: flex;
+                flex-direction: column;
+                padding: 60px 20px;
+                gap: 60px;
+            }
+            .work-card,
+            .work-card:nth-child(even),
+            .work-card[style*="grid-column: span 8"] {
+                grid-column: span 1 !important;
+                margin-top: 0 !important;
+                margin-bottom: 0;
+                width: 100%;
+            }
+            .work-card:nth-child(even) {
+                padding-left: 0;
+                
+            }
+            .work-image {
+                aspect-ratio: 1/1;
+            }
+            .work-image img {
+                object-fit: cover; /* Changed from contain for a fuller look on mobile */
+            }
+            .work-meta {
+                font-size: 9px;
+                margin-top: 12px;
+            }
+            .work-title {
+                font-size: 16px;
+                margin-top: 6px;
+            }
+
+            /* About Section */
+            .about-section {
+                grid-template-columns: 1fr;
+                padding: 60px 20px;
+            }
+            .about-title {
+                font-size: 32px;
+            }
+
+            /* Footer */
+            footer {
+                flex-direction: column;
+                gap: 40px;
+                padding: 60px 20px 40px;
+                align-items: flex-start;
+            }
+            .footer-logo {
+                font-size: 40px;
+            }
+            .contact-info {
+                text-align: left;
+            }
+
+            /* Scribble Mascot */
+            .scribble-mascot {
+                width: 80px;
+            }
+
+            /* Mobile Navigation Styles from Reference */
+            .mobile-nav .nav-vertical {
+                position: fixed;
+                top: 100px;
+                left: 15px;
+                z-index: 100;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+            }
+            .mobile-nav .nav-item {
+                writing-mode: vertical-rl;
+                font-size: 10px;
+                padding-right: 4px;
+            }
+            .mobile-nav .nav-item:hover {
+                padding-right: 4px;
+            }
+            .mobile-nav .brand-mobile {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 100;
+                text-align: right;
+            }
+            .mobile-nav .brand-text {
+                font-family: 'Audiowide', sans-serif;
+                font-size: 20px;
+                color: var(--red);
+                line-height: 0.9;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+            .mobile-status {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                z-index: 100;
+                font-size: 9px;
+                line-height: 1.4;
+                opacity: 0.6;
+                pointer-events: none;
+            }
+
+        } /* --- MOBILE STYLES END --- */
+    </style>
+</head>
+<body>
+
+    <div class="scanline"></div>
+    <canvas id="scribble-canvas"></canvas>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <div class="nav-vertical">
+            <a href="#" class="nav-item">Portfolio.v01</a>
+            <a href="#contact" class="nav-item">Contact</a>
+        </div>
+        <div class="brand-mobile">
+            <div class="brand-text">Keti<br>Darchiashvili</div>
+            <div style="font-size: 8px; font-weight: 700; margin-top: 4px;">EST. 2005 // 44.00.12 N</div>
+        </div>
+    </div>
+    <div class="mobile-status">
+        [SYSTEM_STATUS: ACTIVE]<br>
+        [TEMP: 14°C]<br>
+        [MEM: 88%]
+    </div>
+
+    <nav>
+        <div class="nav-left">
+            <a href="#" class="nav-item">Portfolio.v01</a>
+            <a href="#contact" class="nav-item" style="margin-top: 20px;">Contact</a>
+        </div>
+        
+        <div class="nav-top-right">
+            <div class="brand">Keti<br>Darchiashvili</div>
+            <div style="font-size: 10px; font-weight: 700;">EST. 2005 // 44.00.12 N</div>
+        </div>
+
+        <div class="nav-bottom-left">
+            <div style="font-size: 10px; opacity: 0.5;">
+                [SYSTEM_STATUS: ACTIVE]<br>
+                [TEMP: 14°C]<br>
+                [MEM: 88%]
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="hero-title">arklith<br>designs</div>
+        
+        
+        <svg class="scribble-mascot" style="top: 15%; right: 10%; transform: rotate(15deg);" viewBox="0 0 100 100">
+            <path class="scribble" d="M20,50 C20,20 80,20 80,50 C80,80 20,80 20,50 M30,40 L35,45 M65,40 L70,45 M40,70 Q50,60 60,70"></path>
+        </svg>
+
+        <svg class="scribble-mascot" style="bottom: 10%; left: 15%; width: 100px;" viewBox="0 0 100 100">
+            <path class="scribble" d="M10,20 L30,10 L50,20 L70,10 L90,20 L90,80 L50,95 L10,80 Z M30,40 A5,5 0 1,1 40,40 M60,40 A5,5 0 1,1 70,40"></path>
+        </svg>
+
+        <div class="hero-mashup">
+            <img src="images/MEMORY_IS_PUNISHMENT.webp" alt="Mashup Layer" class="mashup-layer layer-1">
+            <img src="images/DEVILMAN_CRYBABY.webp" alt="Mashup Layer 2" class="mashup-layer layer-2">
+            
+            <svg class="scribble-overlay" viewBox="0 0 500 600">
+                <path class="scribble" d="M50,50 L450,550 M450,50 L50,550" stroke-width="1" opacity="0.5"></path>
+                <circle class="scribble" cx="250" cy="300" r="100"></circle>
+                <path class="scribble" d="M200,200 Q250,150 300,200"></path>
+            </svg>
+        </div>
+    </header>
+
+    <div class="marquee">
+        <div class="marquee-inner">
+            ANTI-DESIGN // ADVANCED COMPOSITING // METADATA EXPLORATION // NO FUTURE // SYSTEM OVERRIDE // DRAIN GENERATION // 2026 PORTFOLIO // ANTI-DESIGN // ADVANCED COMPOSITING // METADATA EXPLORATION // NO FUTURE // SYSTEM OVERRIDE // DRAIN GENERATION // 2026 PORTFOLIO // 
+        </div>
+    </div>
+
+    <section class="works-grid">
+        
+        <div class="work-card">
+            <div class="work-image">
+                <img src="images/watching_remastered.webp" alt="Project">
+                <div style="position:absolute; top:10px; right:10px;"><span class="badge">001</span></div>
+            </div>
+            <div class="work-meta">
+                <span>paranoia, gaze theory</span>
+                <span>RES: 2480x3503</span>
+            </div>
+            <span class="work-title">I_KNOW_YOU_HAVE_BEEN_WATCHING</span>
+            <p style="font-size: 11px; margin-top: 10px; opacity: 0.7;">the act of watching made literal, geometric, inescapable.</p>
+        </div>
+
+        
+        <div class="work-card">
+            <div class="work-image">
+                <img src="images/MEMORY_IS_PUNISHMENT.webp" alt="Project">
+                <div style="position:absolute; top:10px; right:10px;"><span class="badge">002</span></div>
+            </div>
+            <div class="work-meta">
+                <span>monochromatic, blueprint, human as architecture</span>
+                <span>One color, one idea</span>
+            </div>
+            <span class="work-title">MEMORY_IS_PUNISHMENT</span>
+            <p style="font-size: 11px; margin-top: 10px; opacity: 0.7;">memory visualized as something that calculates, quantifies, and traps you.</p>
+        </div>
+
+        
+        <div class="work-card" style="grid-column: span 8;">
+            <div class="work-image" style="aspect-ratio: 2480/3503;">
+                <img src="images/GIRL_IS_A_GUN_REMASTERED.webp" alt="Project">
+                <div style="position:absolute; top:10px; right:10px;"><span class="badge">003</span></div>
+            </div>
+            <div class="work-meta">
+                <span>duotone, zebra distortion, acid color, typographic tension, anti-design</span>
+                <span>YEAR: 2026</span>
+            </div>
+            <span class="work-title">A_GIRL_IS_A_GUN</span>
+        </div>
+
+        
+        <div class="work-card">
+            <div class="work-image">
+                <img src="images/art.webp" alt="Project">
+                <div style="position:absolute; top:10px; right:10px;"><span class="badge">004</span></div>
+            </div>
+            <div class="work-meta">
+                <span>a whispered subtext, manifesto</span>
+                <span>Art as transgression, confrontation, and self-destruction</span>
+            </div>
+            <span class="work-title">DOING_STRANGE_THINGS_IN_THE_NAME_OF_ART</span>
+        </div>
+        <div class="work-card">
+            <div class="work-image">
+                <img src="images/flower_remastered.webp" alt="Project">
+                <div style="position:absolute; top:10px; right:10px;"><span class="badge">005</span></div>
+            </div>
+            <div class="work-meta">
+                <span>editorial, manga treatment, split composition, botanical, Japanese typography</span>
+                <span>SOFTWARE: PS</span>
+            </div>
+            <span class="work-title">FLOWER_FIELD</span>
+        </div>
+        <div class="work-card" style="grid-column: span 8;">
+            <div class="work-image" style="aspect-ratio: 2480/3503;">
+                <img src="images/weirdf.webp" alt="Project">
+                <div style="position:absolute; top:10px; right:10px;"><span class="badge">006</span></div>
+            </div>
+            <div class="work-meta">
+                <span>archival, postage stamp, multilingual, taxonomy, pop culture subtext</span>
+                <span>TOOLS: PS</span>
+            </div>
+            <span class="work-title">WEIRD_FISHES</span>
+        </div>
+        <div class="work-card">
+            <div class="work-image" style="aspect-ratio: 2000 / 3236; !important; height: auto !important;">
+                <img src="images/wicked.webp" alt="Project" style="width: 100% !important; height: 100% !important; object-fit: contain !important;">
+                <div style="position:absolute; top:10px; right:10px;"><span class="badge">007</span></div>
+            </div>
+            <div class="work-meta">
+                <span>geometric illustration, retro editorial, flat color, architectural composition, melancholy</span>
+                <span>RES: 2480x3503</span>
+            </div>
+            <span class="work-title">WICKED</span>
+            <p style="font-size: 11px; margin-top: 10px; opacity: 0.7;">Evil as loneliness. A horned figure sitting on a ledge not menacing anyone — just tired, small, watching a city that doesn't want him. The geometry below is a world that has no room for him in it.</p>
+        </div>
+
+        
+        <div class="work-card">
+            <div class="work-image">
+                <img src="images/DEVILMAN_CRYBABY.webp" alt="Project">
+                <div style="position:absolute; top:10px; right:10px;"><span class="badge">008</span></div>
+            </div>
+            <div class="work-meta">
+                <span> flat silhouette, halftone, anime/manga, chromatic aberration, monolithic composition</span>
+                <span>TOOLS: PS, AI</span>
+            </div>
+            <span class="work-title">DEVILMAN_CRYBABY</span>
+            <p style="font-size: 11px; margin-top: 10px; opacity: 0.7;">Grief rendered as a graphic weapon.</p>
+        </div>
+
+    
+
+    </section>
+
+    <section class="about-section">
+        <div class="about-left">
+            <div class="edu-badge">3RD_YEAR</div>
+            <h2 class="about-title">SYSTEM_<br>PROFILE</h2>
+            <div class="status-box">
+                <span class="status-light"></span> STATUS: // AVAILABLE<br>
+                [CREATIVE DETECTED]<br>
+                [TOOLS: PS, AI, FIG]
+            </div>
+        </div>
+        <div class="about-right">
+            <div class="about-block">
+                <h3>Education</h3>
+                <p>Currently enrolled as a 3rd Year IT student. Focusing on interface design, digital composition, and experimental media systems.</p>
+            </div>
+            <div class="about-block">
+                <h3>About</h3>
+                <p>Arklith is a graphic designer based in Tbilisi, Georgia, working in poster design, Brand visual development, and image-making. Every piece starts from a concept — a line, a feeling, an idea that needs a visual argument — and is built until the image and the idea are the same thing.
+Available for poster commissions, key art, gig design, and Brand visual development work. Fast turnaround. No generic output.</p>
+            </div>
+            
+        </div>
+        
+    </section>
+
+    <footer id="contact">
+        <div class="footer-logo">
+            ARKLITH.SYS
+        </div>
+        <div class="contact-info">
+            <p style="font-weight: 700; margin-bottom: 20px;">CONTACT_GATEWAY</p>
+            <p><span class="status-light"></span> AVAILABLE FOR COMMISSIONS</p>
+            <p style="margin-top: 10px;">DARCHIASHVILI.KETI0@GMAIL.COM</p>
+            <p style="margin-top: 10px; font-size: 10px; opacity: 0.5;">ALL RIGHTS RESERVED // NO DATA SAVED // SHRED AFTER VIEWING</p>
+        </div>
+    </footer>
+
+    <script>
+        
+        const canvas = document.getElementById('scribble-canvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+        let isDrawing = false;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        function handleMove(e) {
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            const y = e.touches ? e.touches[0].clientY : e.clientY;
+            points.push({ x, y, age: 0 });
+            if (points.length > 40) points.shift();
+        }
+
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('touchmove', handleMove);
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (points.length > 1) {
+                ctx.beginPath();
+                ctx.strokeStyle = '#F1291B';
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                
+                ctx.moveTo(points[0].x, points[0].y);
+                for (let i = 1; i < points.length; i++) {
+                    
+                    const jitterX = (Math.random() - 0.5) * 1.5;
+                    const jitterY = (Math.random() - 0.5) * 1.5;
+                    ctx.lineTo(points[i].x + jitterX, points[i].y + jitterY);
+                    points[i].age++;
+                }
+                ctx.stroke();
+            }
+
+            
+            if (points.length > 0) {
+                points = points.filter(p => p.age < 25);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            
+            const layers = document.querySelectorAll('.mashup-layer');
+            if (window.innerWidth > 768) { // Only apply parallax on desktop
+                layers[0].style.transform = `translate(${x * 30}px, ${y * 30}px) scale(1.05)`;
+                layers[1].style.transform = `translate(${x * -60}px, ${y * -60}px) rotate(${x * 5}deg)`;
+            }
+        });
+
+    </script>
+
+</body>
+</html>
