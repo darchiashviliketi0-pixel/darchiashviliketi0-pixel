@@ -24,6 +24,11 @@
             cursor: crosshair;
         }
 
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             background-color: var(--white);
             color: var(--black);
@@ -33,7 +38,6 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            background-blend-mode: overlay;
         }
 
         body::before {
@@ -46,6 +50,13 @@
             background: rgba(255,255,255,0.7);
             z-index: -1;
         }
+
+        /* Hide mobile-only elements on desktop */
+        .mobile-nav, .mobile-status {
+            display: none;
+        }
+
+
 
         
         .scanline {
@@ -163,10 +174,10 @@
             mix-blend-mode: difference;
             pointer-events: none;
             z-index: 5;
-            line-height: 0.7;
+            line-height: 0.8;
             text-transform: uppercase;
             left: 5vw;
-            top: 20vh;
+            top: 18vh;
         }
 
         
@@ -399,12 +410,171 @@
             color: var(--red);
             margin-bottom: 10px;
         }
+
+        @media (max-width: 768px) { /* --- MOBILE STYLES START --- */
+            
+            /* Hide desktop nav and show mobile nav */
+            nav {
+                display: none;
+            }
+            .mobile-nav, .mobile-status {
+                display: block;
+            }
+
+            /* Header and Hero Section */
+            header {
+                flex-direction: column;
+                justify-content: center;
+                padding: 0 20px;
+                min-height: 100vh;
+            }
+            .hero-title {
+                font-size: 18vw;
+                text-align: center;
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: -20px;
+            }
+            .hero-mashup {
+                width: 85%;
+                aspect-ratio: 4/5;
+                height: auto;
+            }
+            .layer-2 {
+                transform: translate(10px, 10px);
+            }
+
+            /* Works Section */
+            .works-grid {
+                display: flex;
+                flex-direction: column;
+                padding: 60px 20px;
+                gap: 60px;
+            }
+            .work-card,
+            .work-card:nth-child(even),
+            .work-card[style*="grid-column: span 8"] {
+                grid-column: span 1 !important;
+                margin-top: 0 !important;
+                margin-bottom: 0;
+                width: 100%;
+            }
+            .work-card:nth-child(even) {
+                padding-left: 0;
+                
+            }
+            .work-image {
+                aspect-ratio: 1/1;
+            }
+            .work-image img {
+                object-fit: cover; /* Changed from contain for a fuller look on mobile */
+            }
+            .work-meta {
+                font-size: 9px;
+                margin-top: 12px;
+            }
+            .work-title {
+                font-size: 16px;
+                margin-top: 6px;
+            }
+
+            /* About Section */
+            .about-section {
+                grid-template-columns: 1fr;
+                padding: 60px 20px;
+            }
+            .about-title {
+                font-size: 32px;
+            }
+
+            /* Footer */
+            footer {
+                flex-direction: column;
+                gap: 40px;
+                padding: 60px 20px 40px;
+                align-items: flex-start;
+            }
+            .footer-logo {
+                font-size: 40px;
+            }
+            .contact-info {
+                text-align: left;
+            }
+
+            /* Scribble Mascot */
+            .scribble-mascot {
+                width: 80px;
+            }
+
+            /* Mobile Navigation Styles from Reference */
+            .mobile-nav .nav-vertical {
+                position: fixed;
+                top: 100px;
+                left: 15px;
+                z-index: 100;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+            }
+            .mobile-nav .nav-item {
+                writing-mode: vertical-rl;
+                font-size: 10px;
+                padding-right: 4px;
+            }
+            .mobile-nav .nav-item:hover {
+                padding-right: 4px;
+            }
+            .mobile-nav .brand-mobile {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 100;
+                text-align: right;
+            }
+            .mobile-nav .brand-text {
+                font-family: 'Audiowide', sans-serif;
+                font-size: 20px;
+                color: var(--red);
+                line-height: 0.9;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+            .mobile-status {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                z-index: 100;
+                font-size: 9px;
+                line-height: 1.4;
+                opacity: 0.6;
+                pointer-events: none;
+            }
+
+        } /* --- MOBILE STYLES END --- */
     </style>
 </head>
 <body>
 
     <div class="scanline"></div>
     <canvas id="scribble-canvas"></canvas>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <div class="nav-vertical">
+            <a href="#" class="nav-item">Portfolio.v01</a>
+            <a href="#contact" class="nav-item">Contact</a>
+        </div>
+        <div class="brand-mobile">
+            <div class="brand-text">Keti<br>Darchiashvili</div>
+            <div style="font-size: 8px; font-weight: 700; margin-top: 4px;">EST. 2005 // 44.00.12 N</div>
+        </div>
+    </div>
+    <div class="mobile-status">
+        [SYSTEM_STATUS: ACTIVE]<br>
+        [TEMP: 14°C]<br>
+        [MEM: 88%]
+    </div>
 
     <nav>
         <div class="nav-left">
@@ -615,10 +785,15 @@ Available for poster commissions, key art, gig design, and Brand visual developm
         window.addEventListener('resize', resize);
         resize();
 
-        window.addEventListener('mousemove', (e) => {
-            points.push({ x: e.clientX, y: e.clientY, age: 0 });
-            if (points.length > 50) points.shift();
-        });
+        function handleMove(e) {
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            const y = e.touches ? e.touches[0].clientY : e.clientY;
+            points.push({ x, y, age: 0 });
+            if (points.length > 40) points.shift();
+        }
+
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('touchmove', handleMove);
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -633,8 +808,8 @@ Available for poster commissions, key art, gig design, and Brand visual developm
                 ctx.moveTo(points[0].x, points[0].y);
                 for (let i = 1; i < points.length; i++) {
                     
-                    const jitterX = (Math.random() - 0.5) * 2;
-                    const jitterY = (Math.random() - 0.5) * 2;
+                    const jitterX = (Math.random() - 0.5) * 1.5;
+                    const jitterY = (Math.random() - 0.5) * 1.5;
                     ctx.lineTo(points[i].x + jitterX, points[i].y + jitterY);
                     points[i].age++;
                 }
@@ -643,7 +818,7 @@ Available for poster commissions, key art, gig design, and Brand visual developm
 
             
             if (points.length > 0) {
-                points = points.filter(p => p.age < 30);
+                points = points.filter(p => p.age < 25);
             }
 
             requestAnimationFrame(animate);
@@ -657,8 +832,10 @@ Available for poster commissions, key art, gig design, and Brand visual developm
             const y = (e.clientY / window.innerHeight) - 0.5;
             
             const layers = document.querySelectorAll('.mashup-layer');
-            layers[0].style.transform = `translate(${x * 30}px, ${y * 30}px) scale(1.05)`;
-            layers[1].style.transform = `translate(${x * -60}px, ${y * -60}px) rotate(${x * 5}deg)`;
+            if (window.innerWidth > 768) { // Only apply parallax on desktop
+                layers[0].style.transform = `translate(${x * 30}px, ${y * 30}px) scale(1.05)`;
+                layers[1].style.transform = `translate(${x * -60}px, ${y * -60}px) rotate(${x * 5}deg)`;
+            }
         });
 
     </script>
