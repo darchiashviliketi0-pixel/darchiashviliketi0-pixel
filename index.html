@@ -465,10 +465,12 @@
                 
             }
             .work-image {
-                aspect-ratio: 1/1;
+                aspect-ratio: auto; /* Allow natural aspect ratio */
             }
             .work-image img {
-                object-fit: cover; /* Changed from contain for a fuller look on mobile */
+                object-fit: contain; /* Use contain to prevent cropping */
+                aspect-ratio: 2480/3508; /* Set a default poster aspect ratio */
+                display: block; /* Removes the small space below the image */
             }
             .work-meta {
                 font-size: 9px;
